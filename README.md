@@ -40,6 +40,10 @@ func main() {
 	
 	// your app's code here...
 
+	// you can take a snapshot at any point in the code:
+	prof.TakeSnapshot()
+
+	// take one last snapshot and clean resources
 	prof.Stop()
 }
 ```
