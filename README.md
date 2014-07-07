@@ -37,9 +37,10 @@ func main() {
 	}
 	prof := profiler.NewProfiler(pprofConf)
 	go prof.Run()
-	defer prof.Stop()
-
+	
 	// your app's code here...
+
+	prof.Stop()
 }
 ```
 
