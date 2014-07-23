@@ -14,7 +14,7 @@ type Config struct {
 	Block     bool   `json:"block"`
 	Goroutine bool   `json:"goroutine"`
 	Prefix    string `json:"prefix"`
-	Interval  int    `json:"interval"`
+	Interval  string `json:"interval"`
 }
 
 type profiler struct {
@@ -32,7 +32,7 @@ func NewProfiler(conf Config) *profiler {
 }
 
 func (c Config) isOn() bool {
-	return c.CPU || c.Memory || c.Goroutine || c.Prefix
+	return c.CPU || c.Memory || c.Goroutine || c.Block
 }
 
 func (p profiler) Run() {
@@ -44,8 +44,13 @@ func (p profiler) Run() {
 		runtime.SetBlockProfileRate(1)
 	}
 
-	if p.conf.isOn() && p.conf.Interval > 0 {
-		timer := time.NewTimer(p.conf.Interval * time.Millisecond)
+	if p.conf.isOn() && "" != p.conf.Interval {
+		interval, err := time.ParseDuration(p.conf.Interval)
+		if nil != err {
+			fmt.Println(err)
+			return
+		}
+		timer := time.NewTimer(interval)
 		select {
 		case <-timer.C:
 			p.TakeSnapshot()
