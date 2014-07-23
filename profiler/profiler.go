@@ -31,6 +31,10 @@ func NewProfiler(conf Config) *profiler {
 	}
 }
 
+func (c Config) isOn() bool {
+	return c.CPU || c.Memory || c.Goroutine || c.Prefix
+}
+
 func (p profiler) Run() {
 
 	if p.conf.CPU {
@@ -40,7 +44,7 @@ func (p profiler) Run() {
 		runtime.SetBlockProfileRate(1)
 	}
 
-	if p.conf.Interval > 0 {
+	if p.conf.isOn() && p.conf.Interval > 0 {
 		timer := time.NewTimer(p.conf.Interval * time.Millisecond)
 		select {
 		case <-timer.C:
