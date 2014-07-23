@@ -9,12 +9,12 @@ import (
 )
 
 type Config struct {
-	CPU       bool          `json:"cpu"`
-	Memory    bool          `json:"memory"`
-	Block     bool          `json:"block"`
-	Goroutine bool          `json:"goroutine"`
-	Prefix    string        `json:"prefix"`
-	Interval  time.Duration `json:"interval"`
+	CPU       bool   `json:"cpu"`
+	Memory    bool   `json:"memory"`
+	Block     bool   `json:"block"`
+	Goroutine bool   `json:"goroutine"`
+	Prefix    string `json:"prefix"`
+	Interval  int    `json:"interval"`
 }
 
 type profiler struct {
@@ -24,7 +24,11 @@ type profiler struct {
 }
 
 func NewProfiler(conf Config) *profiler {
-	return &profiler{conf: conf, terminateCh: make(chan struct{}, 0), closers: make([]func(), 0)}
+	return &profiler{
+		conf:        conf,
+		terminateCh: make(chan struct{}, 0),
+		closers:     make([]func(), 0),
+	}
 }
 
 func (p profiler) Run() {
@@ -37,7 +41,7 @@ func (p profiler) Run() {
 	}
 
 	if p.conf.Interval > 0 {
-		timer := time.NewTimer(p.conf.Interval)
+		timer := time.NewTimer(p.conf.Interval * time.Millisecond)
 		select {
 		case <-timer.C:
 			p.TakeSnapshot()

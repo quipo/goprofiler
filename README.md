@@ -33,7 +33,7 @@ func main() {
 		Memory: true,
 		Block: false,
 		Goroutine: false,
-		Interval: time.Second * 15
+		Interval: 15000    // one snapshot every 15 seconds
 	}
 	prof := profiler.NewProfiler(pprofConf)
 	go prof.Run()
