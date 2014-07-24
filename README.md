@@ -33,7 +33,8 @@ func main() {
 		Memory: true,
 		Block: false,
 		Goroutine: false,
-		Interval: "15s"    // one snapshot every 15 seconds
+		Interval: "15s",      // one snapshot every 15 seconds,
+		MemoryProfileRate: 1 // collection information about all allocations
 	}
 	prof := profiler.NewProfiler(pprofConf)
 	go prof.Run()
