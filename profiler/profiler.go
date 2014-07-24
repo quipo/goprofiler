@@ -9,12 +9,13 @@ import (
 )
 
 type Config struct {
-	CPU       bool   `json:"cpu"`
-	Memory    bool   `json:"memory"`
-	Block     bool   `json:"block"`
-	Goroutine bool   `json:"goroutine"`
-	Prefix    string `json:"prefix"`
-	Interval  string `json:"interval"`
+	CPU               bool   `json:"cpu"`
+	Memory            bool   `json:"memory"`
+	Block             bool   `json:"block"`
+	Goroutine         bool   `json:"goroutine"`
+	Prefix            string `json:"prefix"`
+	Interval          string `json:"interval"`
+	MemoryProfileRate int    `json:"memory_profile_rate"`
 }
 
 type profiler struct {
@@ -39,6 +40,9 @@ func (p profiler) Run() {
 
 	if p.conf.CPU {
 		p.startProfilingCPU()
+	}
+	if p.conf.Memory {
+		runtime.MemProfileRate = p.conf.MemoryProfileRate
 	}
 	if p.conf.Block {
 		runtime.SetBlockProfileRate(1)
