@@ -78,6 +78,7 @@ FlameGraph links:
 * [CPU Flame Graphs](http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html)
 * [off-CPU Flame Graphs](http://agentzh.org/misc/slides/off-cpu-flame-graphs.pdf)
 * [StackGraph command](http://godoc.org/code.google.com/p/rog-go/cmd/stackgraph) [see also](https://plus.google.com/+rogerpeppe/posts/XfK6UR57xNK)
+* [Go Flame Graphs](https://github.com/kisielk/goflamegraph)
 
 
 ## Author
