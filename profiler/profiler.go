@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// Config wraps the profiler settings
 type Config struct {
 	CPU               bool   `json:"cpu"`
 	Memory            bool   `json:"memory"`
@@ -16,6 +17,7 @@ type Config struct {
 	Prefix            string `json:"prefix"`
 	Interval          string `json:"interval"`
 	MemoryProfileRate int    `json:"memory_profile_rate"`
+	CPUProfileRate    int    `json:"cpu_profile_rate"`
 }
 
 type profiler struct {
@@ -24,6 +26,7 @@ type profiler struct {
 	closers     []func()
 }
 
+// NewProfiler initialises a new instance of a profiler
 func NewProfiler(conf Config) *profiler {
 	return &profiler{
 		conf:        conf,
@@ -36,9 +39,12 @@ func (c Config) isOn() bool {
 	return c.CPU || c.Memory || c.Goroutine || c.Block
 }
 
+// Run starts the profiler
 func (p profiler) Run() {
-
 	if p.conf.CPU {
+		if p.conf.CPUProfileRate > 0 {
+			runtime.SetCPUProfileRate(p.conf.CPUProfileRate)
+		}
 		p.startProfilingCPU()
 	}
 	if p.conf.Memory {
@@ -66,6 +72,7 @@ func (p profiler) Run() {
 	}
 }
 
+// TakeSnapshot takes a profiling data snapshot for the enabled resources
 func (p profiler) TakeSnapshot() {
 	if p.conf.CPU {
 		p.takeCPUSnapshot()
@@ -86,10 +93,12 @@ func (p profiler) TakeSnapshot() {
 	p.closers = nil
 }
 
+// Stop terminates the active profiler(s)
 func (p profiler) Stop() {
 	close(p.terminateCh)
 }
 
+// opens a new output file to collect CPU profiling information
 func (p profiler) startProfilingCPU() {
 	pprofFile := fmt.Sprintf("%scpu.%d.pprof", p.conf.Prefix, time.Now().Unix())
 	fmt.Println("Starting new CPU Profiler:", pprofFile)
