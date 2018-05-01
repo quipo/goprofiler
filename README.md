@@ -79,6 +79,8 @@ FlameGraph links:
 * [off-CPU Flame Graphs](http://agentzh.org/misc/slides/off-cpu-flame-graphs.pdf)
 * [StackGraph command](http://godoc.org/code.google.com/p/rog-go/cmd/stackgraph) [see also](https://plus.google.com/+rogerpeppe/posts/XfK6UR57xNK)
 * [Go Flame Graphs](https://github.com/kisielk/goflamegraph)
+* [Go-Torch, Stochastic flame graph profiler for Go programs](https://github.com/uber/go-torch)
+* [Java in Flames](http://techblog.netflix.com/2015/07/java-in-flames.html)
 
 
 ## Author
