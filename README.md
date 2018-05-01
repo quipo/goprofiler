@@ -4,11 +4,11 @@
 
 ## Introduction
 
-Simple profiling support package for Go. 
+Simple profiling support package for Go.
 
 Inspired by [Dave Cheney's library](https://github.com/davecheney/profile), with extra functionality and automation.
 
-The library can take CPU, Memory, Block and Goroutine profiles. 
+The library can take CPU, Memory, Block, Mutex and Goroutine profiles.
 It can either take a single snapshot, or can take snapshots at regular intervals.
 
 ## Installation
@@ -33,8 +33,11 @@ func main() {
 		Memory: true,
 		Block: false,
 		Goroutine: false,
+		Mutex: false,
 		Interval: "15s",      // one snapshot every 15 seconds,
-		MemoryProfileRate: 1 // collection information about all allocations
+		CPUProfileRate: 100,  // collect 100 CPU profiling samples per second
+		MemoryProfileRate: 1, // collect information about all allocations
+		MutexProfileRate: 1,  // collect information about all blocking events
 	}
 	prof := profiler.NewProfiler(pprofConf)
 	go prof.Run()
@@ -68,6 +71,7 @@ func main() {
 * [How To Determine Web Application Thread Pool Size](http://venkateshcm.com/2014/05/How-To-Determine-Web-Applications-Thread-Poll-Size/)
 * [Go's unsafe.Pointer Pointer Type](http://learngowith.me/gos-pointer-pointer-type/)
 * [perf Counting](http://www.brendangregg.com/blog/2014-07-03/perf-counting.html)
+* [Mutex profile](https://rakyll.org/mutexprofile/)
 
 
 FlameGraph links:
